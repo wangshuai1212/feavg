@@ -20,7 +20,12 @@ contains
 
   subroutine init_common()
     ts = 1.0d0 / f
-    nn = (64.0d0 + 1.0d0)**2
+
+    if (nn <= 0.0d0) then
+    nn = 64.0d0
+    end if
+    
+    nn = (nn + 1.0d0)**2
     call random_seed()
   end subroutine init_common
 

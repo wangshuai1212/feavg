@@ -64,7 +64,7 @@ program feavg
   call set_nn(nn_val)
   call count_vtk_files("feap.vtk.")
   call allocate_arrays()
-  call init_common()
+  call init_common()  !initial nn ts
 
   if (trim(mode) == "pe") then
     call run_ep()

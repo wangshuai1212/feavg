@@ -8,7 +8,6 @@ subroutine run_ep()
   logical :: time_read
 
 
-  call init_common()
   
   print *, 'DEBUG nfiles = ', nfiles
   print *, 'DEBUG nn = ', nn
@@ -48,7 +47,7 @@ subroutine run_ep()
         do k = 1, int(nn)
           read(10,*, iostat=ios) temp1, temp2, temp3, temp4, temp5
           if (ios /= 0) exit
-          a(i) = a(i) - temp3
+          a(i) = a(i) - temp2
         end do
 
         exit   ! ✅ 读完 u，直接结束本文件

@@ -7,7 +7,6 @@ subroutine run_ee()
   real(8) :: s1, s2, s3, s4, s5, s6, s7, s8, s9
   logical :: time_read
 
-  call init_common()
 
   do i = 1, nfiles
     a(i) = 0.0d0
