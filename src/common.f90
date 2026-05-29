@@ -5,7 +5,7 @@ module common
   character(len=256)   :: line
   character(len=128)   :: outname
 
-  real(8) :: f = 0.1d0
+  real(8) :: f = 1d0
   real(8) :: Ampl = 6.0d0
   real(8) :: ts
   real(8) :: nn
@@ -21,6 +21,7 @@ contains
   subroutine init_common()
     ts = 1.0d0 / f
     nn = (64.0d0 + 1.0d0)**2
+    call random_seed()
   end subroutine init_common
 
   subroutine set_outname(name)
@@ -101,5 +102,36 @@ subroutine plot_csv_png(filename)
   call system(trim(cmd))
   print *, "Saved image: ", trim(pngname)
 end subroutine plot_csv_png
+
+
+subroutine generate_random_init(nn_in)
+  implicit none
+  integer, intent(in) :: nn_in
+
+  integer :: N, num_nodes, i
+  real(8) :: amp, u1, u2
+  character(len=128) :: fname
+
+  N = nn_in
+  num_nodes = (N + 1) * (N + 1)
+  amp = 0.3d0
+
+  write(fname, '(A,I0,A)') 'rd', N, '.dat'
+
+  open(unit=20, file=trim(fname), status='replace')
+  do i = 1, num_nodes
+    call random_number(u1)
+    call random_number(u2)
+    u1 = amp * (2.0d0 * u1 - 1.0d0)
+    u2 = amp * (2.0d0 * u2 - 1.0d0)
+
+    ! ✅ FEAP-safe format
+    write(20, '(I6, I3, 2E14.6)') i, 0, u1, u2
+  end do
+  close(20)
+
+  print *, "Generated FEAP initial file: ", trim(fname)
+end subroutine generate_random_init
+
 
 end module common

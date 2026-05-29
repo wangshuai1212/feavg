@@ -20,6 +20,16 @@ program feavg
     stop
   end if
 
+
+    if (trim(mode) == "rd") then
+    call get_command_argument(2, arg1)
+    if (len_trim(arg1) /= 0) then
+      read(arg1,*) nn_val
+    end if
+    call generate_random_init(nn_val)
+    stop
+  end if
+
   ! ===== plot =====
   if (trim(mode) == "plot") then
     call get_command_argument(2, arg1)
@@ -38,7 +48,7 @@ program feavg
     stop
   end if
 
-  ! ===== ep / ee =====
+  ! ===== pe / ee =====
   call get_command_argument(2, arg2)
   if (len_trim(arg2) == 0) then
     call print_usage()
@@ -56,7 +66,7 @@ program feavg
   call allocate_arrays()
   call init_common()
 
-  if (trim(mode) == "ep") then
+  if (trim(mode) == "pe") then
     call run_ep()
   else if (trim(mode) == "ee") then
     call run_ee()
@@ -71,7 +81,7 @@ contains
   subroutine print_usage()
     print *
     print *, "Usage:"
-    print *, "  feavg <ep|ee> <output> [nn]"
+    print *, "  feavg <pe|ee> <output> [nn]"
     print *, "  feavg plot <csv> [--png]"
     print *, "  feavg help"
     print *
@@ -84,16 +94,16 @@ contains
     print *, "=============================================="
     print *
     print *, "Modes:"
-    print *, "  ep        Extract displacement vs time"
-    print *, "  ee        Extract stress vs time"
+    print *, "  pe        Extract polarization vs Efield"
+    print *, "  ee        Extract strain vs Efield"
     print *, "  plot      Plot X-Y scatter / hysteresis curve"
     print *, "  help      Show this help message"
     print *
     print *, "Examples:"
-    print *, "  feavg ep ep.csv 64"
+    print *, "  feavg pe pe.csv 64"
     print *, "  feavg ee ee.csv 100"
-    print *, "  feavg plot ep.csv"
-    print *, "  feavg plot ep.csv --png"
+    print *, "  feavg plot pe.csv"
+    print *, "  feavg plot pe.csv --png"
     print *
     print *, "Notes:"
     print *, "  - nn: grid density (default = 100)"

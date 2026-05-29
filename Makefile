@@ -1,9 +1,8 @@
-# ============================================
-# FEAVG Makefile
-# ============================================
-
 FC      ?= gfortran
-FFLAGS ?= -O3 -Wall -std=gnu
+FFLAGS  ?= -O3 -Wall -std=gnu
+
+PREFIX  ?= /usr/local
+BINDIR  ?= $(PREFIX)/bin
 
 SRC      = src
 BIN      = bin
@@ -17,7 +16,7 @@ SRCS = \
 
 OBJS = $(SRCS:.f90=.o)
 
-.PHONY: all clean
+.PHONY: all clean install uninstall
 
 all: $(TARGET)
 
@@ -33,8 +32,9 @@ clean:
 	find . -name "*.o" -delete
 	find . -name "*.mod" -delete
 
-install: $(TARGET)
-	cp $(TARGET) /usr/local/bin/
+install:
+	install -d $(BINDIR)
+	install $(TARGET) $(BINDIR)
 
 uninstall:
-	rm -f /usr/local/bin/feavg
+	rm -f $(BINDIR)/feavg
