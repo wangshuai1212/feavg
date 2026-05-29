@@ -81,6 +81,7 @@ contains
   subroutine print_usage()
     print *
     print *, "Usage:"
+    print *, "  feavg rd [nn]"
     print *, "  feavg <pe|ee> <output> [nn]"
     print *, "  feavg plot <csv> [--png]"
     print *, "  feavg help"
@@ -94,12 +95,14 @@ contains
     print *, "=============================================="
     print *
     print *, "Modes:"
+    print *, "  rd        generate rd numbers for IC"
     print *, "  pe        Extract polarization vs Efield"
     print *, "  ee        Extract strain vs Efield"
     print *, "  plot      Plot X-Y scatter / hysteresis curve"
     print *, "  help      Show this help message"
     print *
     print *, "Examples:"
+    print *, "  feavg rd 64"
     print *, "  feavg pe pe.csv 64"
     print *, "  feavg ee ee.csv 100"
     print *, "  feavg plot pe.csv"
